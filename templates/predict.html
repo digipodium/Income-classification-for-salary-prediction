@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+<style>
+  .dg{
+    border-left: 3px solid rgb(197, 213, 255);
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid mt-5" id="top-con">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="card" style="border-left: 3px solid rgb(1, 63, 143);">
+          <div class="card-body">
+            <h1 class="text-center">
+              Salary Prediction Results
+              <hr>
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="card" style="border-bottom: 3px solid red">
+                    <div class="card-body" id="degree">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="card" style="border-bottom: 3px solid red">
+                    <div class="card-body" id="distance">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="card" style="border-bottom: 3px solid red">
+                    <div class="card-body" id="exp">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="card" style="border-bottom: 3px solid red">
+                    <div class="card-body" id="industry">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="card" style="border-bottom: 3px solid red">
+                    <div class="card-body" id="job">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="card" style="border-bottom: 3px solid red">
+                    <div class="card-body" id="major">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </h1>
+            <h2 id="result" class="text-center mt-5"></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+  $(document).ready(() => {
+    let data = JSON.parse(sessionStorage.getItem('data'));
+    let input_values = JSON.parse(sessionStorage.getItem('input_values'))
+    console.log(data);
+    console.log(input_values);
+    $('#degree').append(`<p class="h5">Degree : ${input_values.degree}</p>`)
+    $('#exp').append(`<p class="h5">Experience : ${input_values.exp}</p>`)
+    $('#distance').append(`<p class="h5">Distance : ${input_values.distance}</p>`)
+    $('#industry').append(`<p class="h5">Industry : ${input_values.industry}</p>`)
+    $('#major').append(`<p class="h5">Major : ${input_values.major}</p>`)
+    $('#job').append(`<p class="h5">Job : ${input_values.job}</p>`)
+    result = data;
+    $('#result').append(data);
+  });
+</script>
+{% endblock %}

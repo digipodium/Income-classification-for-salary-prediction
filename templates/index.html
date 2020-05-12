@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
+    <link rel="stylesheet" href="static/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="static/assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <style>
+        .mid-card{
+            box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.698);
+        }
+        .header-mg{
+            background: linear-gradient(rgba(4, 5, 110, 0.712), rgba(86, 0, 93, 0.685)),
+            url('static/assets/img/bg-masthead.jpg');
+            background-size:cover
+        }
+        .input-card{
+            margin-top: -10rem;border-left: 4px solid blue;
+            box-shadow: 2px 2px 30px 10px rgba(0, 0, 0, 0.287);
+        }
+    </style>
+</head>
+
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Movie Recommendation System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            {% if not loggedin %}
+            <li class="nav-item">
+              <a class="nav-link" href="/signin">login</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" style="color: black;"><strong>Hello {{loggedin}}</strong></a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+
+    <header class="masthead text-white text-center header-mg">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 mx-auto" style="text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.698)">
+                    <h1>AI based Movie Recommendation System</h1>
+                    <h3 class="mb-5">Proposed system is based on a Machine Learning Prediction Model to predict movie recommendation for the customers.</h3>
+                </div>
+                <!-- <div class="col-md col-lg-8 col-xl-7 mx-auto">
+                    <div class="form-row">
+                        <div class="col-3 col-md-2 mb-2 mb-md-0"></div>
+                        <div class="col-3 col-md-2 mb-2 mb-md-0"></div>
+                        <div class="col-6 col-md-4 mb-2 mb-md-0">
+                            <select name="desig" id="desig" class="form-control form-control-lg">
+                                
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4"></div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        
+    </header>
+    <div class="container">
+        <div class="card input-card">
+            <div class="card-body">
+                <h1 class="text-center">Predict Salary</h1>
+                <div class="input-area">
+                    <label class="mt-5">Exprience</label>
+                    <input class="form-control form-control-lg" placeholder="experience" id="exp" name="exp"  required>
+                    <label class="mt-5">Distance</label>
+                    <input class="form-control form-control-lg" placeholder="distance" id="distance" name="distance"  required>
+            
+                    <label class="mt-5">Job Type</label>
+                    <select name="job" id="job" class="form-control form-control-lg"></select>
+            
+                    <label class="mt-5">Degree</label>
+                    <select name="degree" id="degree" class="form-control form-control-lg"></select>
+            
+                    <label class="mt-5">Major Area</label>
+                    <select name="major" id="major" class="form-control form-control-lg"></select>
+            
+                    <label class="mt-5">Industry</label>
+                    <select name="industry" id="industry" class="form-control form-control-lg"></select>
+            
+                    <button class="btn btn-primary btn-block btn-lg mt-5" type="submit" id="rec">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="static/assets/js/jquery.min.js"></script>
+    <script src="static/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/assets/js/bs-init.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <script>
+        $(document).ready(() => {
+            let features = [];
+            
+            $.get('/features', {}, (data) => {
+                // [job_type, degree, major, industry] = data;
+                features = data;
+                console.log(data);
+                inputs = ['job', 'degree', 'major', 'industry']
+                let count = 2;
+                for(let i=0;i<features.length;i++){
+                    features[i].forEach((feature, index) => {
+                        $('#'+inputs[i]).append(`<option value="${count}">${feature}</option>`)
+                        count+=1;
+                    });
+                }
+                
+            });
+
+
+            $('#rec').click(() => {
+                let exp = $('#exp').val()
+                let distance = $('#distance').val()
+                let job = $('#job').val()
+                let degree = $('#degree').val()
+                let major = $('#major').val()
+                let industry = $('#industry').val()
+
+                let selFeatures = [];
+                let inputs = [exp, distance, job, degree, major, industry];
+
+                console.log(features[4]);
+                for(let i=2;i<=features.length;i++){
+                    selFeatures.push(features[i-2][inputs[i]]);
+                }
+                console.log(selFeatures);
+
+                sessionStorage.setItem(features, JSON.stringify([exp, distance]+selFeatures));
+
+                let formdata = {
+                    exp : exp,
+                    distance : distance,
+                    job : job,
+                    degree : degree,
+                    major : major,
+                    industry : industry
+                }
+
+                sessionStorage.setItem('input_values', JSON.stringify(formdata))
+
+                $.ajax({url : '/predict', data : formdata, method : "post", complete : (data) => {
+                    console.log(data.responseJSON);
+                    sessionStorage.setItem('data', JSON.stringify(data.responseJSON));
+                    window.location.replace('/showresult')
+                },
+                beforeSend: () => {
+                    Swal.fire({
+                        title: 'Predicting Results!',
+                        html: 'This may take some time',
+                        timerProgressBar: true,
+                        onBeforeOpen: (
+                            
+                        ) => {
+                            Swal.showLoading();
+                        },
+                        })
+                },
+                })
+            });
+
+            $('#train-card').click(() => {
+                $.ajax({url : '/trainmodel', data : {}, method : "get", complete : (data) => {
+                    console.log(data);
+                    Swal.fire({
+                        icon : 'success',
+                        title : 'Model Trained!',
+                        text : 'Training completed successfully'
+                    })
+                },
+                beforeSend: () => {
+                    Swal.fire({
+                        title: 'Training AI Model!',
+                        html: 'This may take some time',
+                        timerProgressBar: true,
+                        onBeforeOpen: (
+                            
+                        ) => {
+                            Swal.showLoading();
+                        },
+                        })
+                },
+                })
+            });
+
+            $('#report-card').click(() => {
+                window.location.replace('/showreport')
+            })
+            });
+    </script>
+</body>
+
+</html>
