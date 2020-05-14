@@ -17,7 +17,8 @@
         .header-mg{
             background: linear-gradient(rgba(4, 5, 110, 0.712), rgba(86, 0, 93, 0.685)),
             url('static/assets/img/bg-masthead.jpg');
-            background-size:cover
+            background-size:cover;
+            background-position: center;
         }
         .input-card{
             margin-top: -10rem;border-left: 4px solid blue;
@@ -29,15 +30,12 @@
 <body>
     
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Employee Salary Prediction</a>
+        <a class="navbar-brand" href="/">Skill based Salary Prediction and Analysis</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" style="color: black;" href="/viz">Visualizations</a>
-            </li>
             <li class="nav-item active">
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
@@ -62,8 +60,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-8 mx-auto" style="text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.698)">
-                    <h1>AI based Employee Salary Prediction</h1>
-                    <h3 class="mb-5">Proposed system uses Machine Learning to predict Employee on various factors</h3>
+                    <h1>Skill based Salary Prediction and Analysis</h1>
+                    <h3 class="mb-5">Proposed system uses Machine Learning models to train and predict the approximate salary for employee based on skils.</h3>
                 </div>
                 <!-- <div class="col-md col-lg-8 col-xl-7 mx-auto">
                     <div class="form-row">
@@ -81,15 +79,16 @@
         </div>
         
     </header>
-    <div class="container mb-5">
-        <div class="card input-card">
+    <div class="container">
+        <div class="card input-card mb-5">
             <div class="card-body">
                 <h1 class="text-center">Predict Salary</h1>
                 <div class="input-area">
                     <label class="mt-5">Exprience</label>
-                    <input class="form-control form-control-lg" placeholder="experience" id="exp" name="exp"  required>
+                    <input class="form-control form-control-lg" placeholder="experience in years" id="exp" name="exp"  required>
+                    <p class="text-sm text-danger" id="req">Value required</p>
                     <label class="mt-5">Distance</label>
-                    <input class="form-control form-control-lg" placeholder="distance" id="distance" name="distance"  required>
+                    <input class="form-control form-control-lg" type="hidden" placeholder="distance" id="distance" name="distance" value="10"  required>
             
                     <label class="mt-5">Job Type</label>
                     <select name="job" id="job" class="form-control form-control-lg"></select>
@@ -108,15 +107,11 @@
             </div>
         </div>
 
-        <div class="card shadow-lg mt-5 mb-5" style="border: 3px solid red;">
+        <div class="card shadow-lg mt-5 mb-5" style="border-left: 4px solid red;">
             <div class="card-body">
-                <h1 class="text-center">
-                    Employee Salary Exploratory Data Analysis
-                </h1>
+                <h1>Data Analysis on Employee Salary</h1>
                 <hr>
-                <div class="text-center">
-                    <a href="/viz" class="btn btn-danger">View</a>
-                </div>
+                <a href="/viz" class="btn btn-danger btn-block">View</a>
             </div>
         </div>
     </div>
@@ -128,6 +123,7 @@
 
     <script>
         $(document).ready(() => {
+            $('#req').hide();
             let features = [];
             
             $.get('/features', {}, (data) => {
@@ -153,28 +149,39 @@
                 let degree = $('#degree').val()
                 let major = $('#major').val()
                 let industry = $('#industry').val()
-
                 let selFeatures = [];
                 let inputs = [exp, distance, job, degree, major, industry];
 
-                console.log(features[4]);
-                for(let i=2;i<=features.length;i++){
-                    selFeatures.push(features[i-2][inputs[i]]);
-                }
-                console.log(selFeatures);
+                // console.log(features[4]);
+                // for(let i=2;i<=features.length;i++){
+                //     selFeatures.push(features[i-2][inputs[i]]);
+                // }
+                // console.log(selFeatures);
 
-                sessionStorage.setItem(features, JSON.stringify([exp, distance]+selFeatures));
+                sessionStorage.setItem('features', JSON.stringify([exp, distance, features[0][job-2],
+                         features[1][degree-10], features[2][major-15], features[3][industry-19] ]));
 
                 let formdata = {
                     exp : exp,
                     distance : distance,
                     job : job,
                     degree : degree,
+                    // degree : degree,
                     major : major,
                     industry : industry
                 }
+                console.log(formdata);
+                // return;
 
                 sessionStorage.setItem('input_values', JSON.stringify(formdata))
+
+                if(!exp)
+                {
+                    $('#req').show();
+                    return;
+                }else{
+                    $('#req').hide();
+                }
 
                 $.ajax({url : '/predict', data : formdata, method : "post", complete : (data) => {
                     console.log(data.responseJSON);

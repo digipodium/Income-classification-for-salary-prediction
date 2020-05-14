@@ -63,7 +63,13 @@
                 </div>
               </div>
             </h1>
-            <h2 id="result" class="text-center mt-5"></h2>
+            <div class="card mt-5 shadow-lg text-light" style="background-color: rgb(134, 23, 23);">
+              <div class="card-body">
+                <h2 style="border-bottom: 2px solid whitesmoke;padding-bottom: 1rem;">Estimated Salary</h2>
+                
+                <p id="result" class=" display-4 mt-2 mb-2 text-center"></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -75,17 +81,17 @@
 <script>
   $(document).ready(() => {
     let data = JSON.parse(sessionStorage.getItem('data'));
-    let input_values = JSON.parse(sessionStorage.getItem('input_values'))
+    let input_values = JSON.parse(sessionStorage.getItem('features'))
     console.log(data);
     console.log(input_values);
-    $('#degree').append(`<p class="h5">Degree : ${input_values.degree}</p>`)
-    $('#exp').append(`<p class="h5">Experience : ${input_values.exp}</p>`)
-    $('#distance').append(`<p class="h5">Distance : ${input_values.distance}</p>`)
-    $('#industry').append(`<p class="h5">Industry : ${input_values.industry}</p>`)
-    $('#major').append(`<p class="h5">Major : ${input_values.major}</p>`)
-    $('#job').append(`<p class="h5">Job : ${input_values.job}</p>`)
+    $('#degree').append(`<p class="h5">Degree : ${input_values[3]}</p>`)
+    $('#exp').append(`<p class="h5">Experience : ${input_values[0]}</p>`)
+    $('#distance').append(`<p class="h5">Distance : ${input_values[1]}</p>`)
+    $('#industry').append(`<p class="h5">Industry : ${input_values[5]}</p>`)
+    $('#major').append(`<p class="h5">Major : ${input_values[4]}</p>`)
+    $('#job').append(`<p class="h5">Job : ${input_values[2]}</p>`)
     result = data;
-    $('#result').append(data);
+    $('#result').append("$"+data);
   });
 </script>
 {% endblock %}

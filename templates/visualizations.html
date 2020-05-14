@@ -1,9 +1,18 @@
 {% extends 'layout.html' %}
 
+{% block css %}
+<style>
+    .viz-card{
+        border-left : 4px solid rgb(0, 52, 95);
+    }
+</style>
+{% endblock %}
+
+
 {% block body %}
 
 <div class="container-fluid">
-    <div class="card main-card mt-5">
+    <div class="card main-card mt-5" style="border-left : 4px solid rgb(255, 94, 0)">
         <div class="card-body">
             <p class="h2 text-center">Various Graphs showing realtionship between Salary, Experience, and Job Type</p>
             
@@ -15,7 +24,7 @@
     <div class="row justify-content-center">
         <div class="col-md-11">
             
-            <div class="card mt-5">
+            <div class="card mt-5 viz-card">
                 <div class="card-body">
                     <h2 class="text-center">Salary Distribution Histogram</h2>
                     <hr>
@@ -23,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="card mt-5">
+            <div class="card mt-5 viz-card">
                 <div class="card-body">
                     <h2 class="text-center">Salary Distribution BoxPlot</h2>
                     <hr>
@@ -31,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="card mt-5">
+            <div class="card mt-5 viz-card">
                 <div class="card-body">
                     <h2 class="text-center">Degree Relationship with Major</h2>
                     <hr>
@@ -39,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="card mt-5">
+            <div class="card mt-5 viz-card">
                 <div class="card-body">
                     <h2 class="text-center">Salary Relationship with different Categories</h2>
                     <hr>
@@ -47,7 +56,7 @@
                 </div>
             </div>
 
-            <div class="card mt-5">
+            <div class="card mt-5 viz-card">
                 <div class="card-body">
                     <h2 class="text-center">Salary Relationship with Experience</h2>
                     <hr>

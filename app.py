@@ -113,7 +113,7 @@ def predict():
         predict_values[int(form.get('industry'))] = 1
         print(predict_values)
 
-        result = predict_salary('PredictionModels/Salary_Prediction_PolynomialModel2.csv', predict_values)
+        result = int(predict_salary('PredictionModels/Salary_Prediction_PolynomialModel.csv', predict_values)*1000)
         
         print(result)
         return jsonify(result)
