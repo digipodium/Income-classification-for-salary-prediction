@@ -103,19 +103,30 @@ def predict():
     if request.method == 'POST':
         form = request.form
         print(form)
+        job = int(form.get('job'))
+        if job == 5:
+            job = 6
+
+        degree = int(form.get('degree'))
+        if degree == 12 or degree == 14:
+            degree = 10
 
         predict_values = [0 for i in range(31)]
         predict_values[0] = int(form.get('exp'))
         predict_values[1] = int(form.get('distance'))
-        predict_values[int(form.get('job'))] = 1
-        predict_values[int(form.get('degree'))] = 1
+        predict_values[job] = 1
+        predict_values[degree] = 1
         predict_values[int(form.get('major'))] = 1
-        predict_values[int(form.get('industry'))] = 1
+        predict_values[int(form.get('industry'))+1] = 1
         print(predict_values)
 
         result = int(predict_salary('PredictionModels/Salary_Prediction_PolynomialModel.csv', predict_values)*1000)
-        
         print(result)
+        if len(str(result)) > 6:
+            result = "Invalid Parameters"
+        else:
+            result = '$'+str(result)
+        
         return jsonify(result)
 
 @app.route('/showresult')

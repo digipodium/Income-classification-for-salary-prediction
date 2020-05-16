@@ -52,31 +52,31 @@ class Process:
 
     def getJobTypes(self):
         return [
-            'MANAGER',
-            'JUNIOR',
-            'CTO',
-            'SENIOR',
             'CEO',
-            'VICE PRESIDENT',
+            'CFO',
+            'CTO',
             'JANITOR',
-            'CFO'
+            'JUNIOR',
+            'MANAGER',
+            'SENIOR',
+            'VICE PRESIDENT'
         ]
 
     def getDegree(self):
         return [
-            'HIGH_SCHOOL',
-            'NONE',
-            'MASTERS',
+            'BACHELORS',
             'DOCTORAL',
-            'BACHELORS'
+            'HIGH SCHOOL',
+            'MASTER',
+            'NONE'
         ]
 
     def getMajor(self):
-        return ['NONE', 'BIOLOGY', 'COMPSCI', 'PHYSICS', 'LITERATURE', 'MATH',
-       'CHEMISTRY', 'ENGINEERING', 'BUSINESS']
+        return ['BIOLOGY', 'BUSINESS', 'CHEMISTRY', 'COMPSCI', 'ENGINEERING',
+       'LITERATURE', 'MATH', 'NONE']
 
     def getIndustry(self):
-        return ['HEALTH', 'AUTO', 'OIL', 'FINANCE', 'SERVICE', 'EDUCATION', 'WEB']
+        return ['AUTO', 'EDUCATION', 'FINANCE', 'HEALTH', 'OIL', 'SERVICE', 'WEB']
 
 
     def ExpSalary(self):
